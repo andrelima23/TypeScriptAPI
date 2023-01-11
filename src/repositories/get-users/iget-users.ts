@@ -5,6 +5,10 @@ export interface IGetUsers {
     handle(): Promise<HttpResponse<User[] | string>>
 }
 
+export interface IGetUserById {
+    handle(): Promise<HttpResponse<User | string>>
+}
+
 export interface IGetUsersRepository {
     getUsers(): Promise<User[]>
 }

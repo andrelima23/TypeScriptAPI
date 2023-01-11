@@ -7,6 +7,8 @@ import { config as useDotEnv } from 'dotenv';
 import { GetUsersController } from './controllers/get-users-controller';
 import { MongoGetUsersRepository } from './repositories/get-users/mongo-get-users';
 import { MongoClient } from './database/mongodb';
+import { MongoGetUserByIdRepository } from './repositories/get-users/mongo-get-userById';
+import { GetUserByIdController } from './controllers/get-user-by-id-controller';
 
 export const App = async () => {
     const app = express();
@@ -45,7 +47,15 @@ export const App = async () => {
         const getUsersController = new GetUsersController(mongoGetUsersRepository)
         const response = await getUsersController.handle()
     
-        res.send(response.body).status(response.statusCode)
+        res.status(response.statusCode).send(response.body)
+    })
+
+    app.get("/userbyid", async (req, res) => {
+        const mongoGetUserByIdRepository = new MongoGetUserByIdRepository()
+        const getUserByIdController = new GetUserByIdController(mongoGetUserByIdRepository)
+        const response = await getUserByIdController.handle()
+    
+        res.status(response.statusCode).send(response.body)
     })
     
     app.post("/post", (req, res) => {
