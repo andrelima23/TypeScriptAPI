@@ -16,9 +16,10 @@ export const App = async () => {
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
     app.use(cors());
+    app.use(express.json());
     useDotEnv()
     
-    MongoClient.connect();
+    await MongoClient.connect();
     
     const data = [{
         n1: 456,
