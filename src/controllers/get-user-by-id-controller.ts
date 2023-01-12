@@ -1,6 +1,6 @@
 import { IGetUsersRepository, IGetUserById, IGetUserByIdRepository } from '../repositories/get-users/iget-users';
-import { ok, serverError } from "../helpers/helpers";
-import { HttpResponse } from "../protocols/control-protocols/http-protocols";
+import { badRequest, ok, serverError } from "../helpers/helpers";
+import { HttpResponse, HttpRequest } from '../protocols/control-protocols/http-protocols';
 import { User } from '../models/user';
 
 export class GetUserByIdController implements IGetUserById {
@@ -11,9 +11,19 @@ export class GetUserByIdController implements IGetUserById {
         this._getUserRepository = getUserRepository;
     }
 
-    async handle(): Promise<HttpResponse<User | string>> {
+    async handle(httpRequest: HttpRequest<string>): Promise<HttpResponse<User | string>> {
         try {
-            const user = await this._getUserRepository.getUserById();
+            const id = httpRequest?.params?.id;
+            const body = httpRequest?.body;
+
+            if(!body) {
+                return badRequest("Id não foi informado no body");
+            }
+
+            if(!id) {
+                return badRequest("Id não foi informado")
+            }
+            const user = await this._getUserRepository.getUserById(id);
 
             return ok<User>(user);
         } catch (error) {

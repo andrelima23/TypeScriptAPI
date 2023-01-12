@@ -50,10 +50,15 @@ export const App = async () => {
         res.status(response.statusCode).send(response.body)
     })
 
-    app.get("/userbyid", async (req, res) => {
+    app.get("/userbyid/:id", async (req, res) => {
         const mongoGetUserByIdRepository = new MongoGetUserByIdRepository()
         const getUserByIdController = new GetUserByIdController(mongoGetUserByIdRepository)
-        const response = await getUserByIdController.handle()
+        const response = await getUserByIdController.handle({
+            body: req.body,
+            params: req.params,
+        })
+
+        console.log(response.body)
     
         res.status(response.statusCode).send(response.body)
     })

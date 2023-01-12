@@ -1,12 +1,12 @@
 import { User } from "../../models/user";
-import { HttpResponse } from "../../protocols/control-protocols/http-protocols";
+import { HttpResponse, HttpRequest } from "../../protocols/control-protocols/http-protocols";
 
 export interface IGetUsers {
     handle(): Promise<HttpResponse<User[] | string>>
 }
 
 export interface IGetUserById {
-    handle(): Promise<HttpResponse<User | string>>
+    handle(httpRequest: HttpRequest<string>): Promise<HttpResponse<User | string>>
 }
 
 export interface IGetUsersRepository {
@@ -14,5 +14,5 @@ export interface IGetUsersRepository {
 }
 
 export interface IGetUserByIdRepository {
-    getUserById(): Promise<User>
+    getUserById(id: string): Promise<User>
 }
