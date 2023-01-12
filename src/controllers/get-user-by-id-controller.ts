@@ -14,11 +14,6 @@ export class GetUserByIdController implements IGetUserById {
     async handle(httpRequest: HttpRequest<string>): Promise<HttpResponse<User | string>> {
         try {
             const id = httpRequest?.params?.id;
-            const body = httpRequest?.body;
-
-            if(!body) {
-                return badRequest("Id não foi informado no body");
-            }
 
             if(!id) {
                 return badRequest("Id não foi informado")

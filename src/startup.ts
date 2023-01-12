@@ -9,6 +9,8 @@ import { MongoGetUsersRepository } from './repositories/get-users/mongo-get-user
 import { MongoClient } from './database/mongodb';
 import { MongoGetUserByIdRepository } from './repositories/get-users/mongo-get-userById';
 import { GetUserByIdController } from './controllers/get-user-by-id-controller';
+import { MongoCreateUserRepository } from './repositories/create-user/mongo-create-user';
+import { CreateUserController } from './controllers/create-user-controller';
 
 export const App = async () => {
     const app = express();
@@ -61,6 +63,16 @@ export const App = async () => {
         console.log(response.body)
     
         res.status(response.statusCode).send(response.body)
+    })
+
+    app.post("/users", async (req, res) => {
+        const mongoCreateUserRepository = new MongoCreateUserRepository();
+        const createUserController = new CreateUserController(mongoCreateUserRepository);
+        const { body, statusCode } = await createUserController.handle({
+            body: req.body
+        })
+
+        return res.status(statusCode).send(body)
     })
     
     app.post("/post", (req, res) => {
