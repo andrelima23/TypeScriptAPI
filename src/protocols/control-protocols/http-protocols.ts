@@ -15,7 +15,3 @@ export enum HttpStatusCode {
     BAD_REQUEST = 400,
     SERVER_ERROR = 500,
 }
-  
-export interface IController {
-    handle(httpRequest: HttpRequest<unknown>): Promise<HttpResponse<unknown>>;
-}
