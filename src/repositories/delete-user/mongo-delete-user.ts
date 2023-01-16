@@ -14,13 +14,16 @@ export class MongoDeleteUserRepository implements IDeleteUserRepository {
 
         const { deletedCount } = await MongoClient.db.collection("users").deleteOne({ _id: new ObjectId(id) });
 
+        if (!deletedCount) {
+            throw new Error("User not deleted");
+          }
+
         if(!user) {
             throw new Error("Usuário não foi deletado")
         }
 
         const { _id, ...rest } = user;
         
-        return user
+        return user;
     }
-
 }

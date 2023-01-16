@@ -1,7 +1,7 @@
 import { User } from '../models/user';
 import { HttpRequest, HttpResponse } from '../protocols/control-protocols/http-protocols';
 import { ICreateUser, ICreateUserParams, ICreateUserRepository } from '../repositories/create-user/icreate-user';
-import { badRequest, ok, serverError } from "../helpers/helpers";
+import { badRequest, ok } from "../helpers/helpers";
 
 export class CreateUserController implements ICreateUser {
 

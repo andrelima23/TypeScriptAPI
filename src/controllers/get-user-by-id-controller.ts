@@ -1,4 +1,4 @@
-import { IGetUsersRepository, IGetUserById, IGetUserByIdRepository } from '../repositories/get-users/iget-users';
+import { IGetUserById, IGetUserByIdRepository } from '../repositories/get-users/iget-users';
 import { badRequest, ok, serverError } from "../helpers/helpers";
 import { HttpResponse, HttpRequest } from '../protocols/control-protocols/http-protocols';
 import { User } from '../models/user';
