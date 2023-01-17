@@ -1,6 +1,6 @@
 import { IGetUsers, IGetUsersRepository } from '../repositories/get-users/iget-users';
 import { ok, serverError } from "../helpers/helpers";
-import { HttpResponse } from "../protocols/control-protocols/http-protocols";
+import { HttpResponse } from "../protocols/http-protocols";
 import { User } from '../models/user';
 
 export class GetUsersController implements IGetUsers {
@@ -18,7 +18,6 @@ export class GetUsersController implements IGetUsers {
             return ok<User[]>(users);
         } catch (error) {
             return serverError();
-            
         }
     }
 }

@@ -1,5 +1,5 @@
 import { User } from "../../models/user";
-import { HttpResponse, HttpRequest } from "../../protocols/control-protocols/http-protocols";
+import { HttpResponse, HttpRequest } from "../../protocols/http-protocols";
 
 export interface IGetUsers {
     handle(): Promise<HttpResponse<User[] | string>>

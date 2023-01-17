@@ -1,6 +1,6 @@
-import { badRequest, ok } from '../helpers/helpers';
+import { badRequest, ok, serverError } from '../helpers/helpers';
 import { User } from '../models/user';
-import { HttpRequest, HttpResponse } from '../protocols/control-protocols/http-protocols';
+import { HttpRequest, HttpResponse } from '../protocols/http-protocols';
 import { IUpdateUser, UpdateUserParams, IUpdateUserRepository } from '../repositories/update-user/iupdate-user';
 
 export class UpdateUserController implements IUpdateUser {
@@ -24,12 +24,25 @@ export class UpdateUserController implements IUpdateUser {
                 return badRequest("Body não informado")
             }
 
+            const allowedFieldsToUpdate: (keyof UpdateUserParams)[] = [
+                "name",
+                "lastName",
+                "password",
+              ];
+        
+              const someFieldIsNotAllowedToUpdate = Object.keys(body).some(
+                (key) => !allowedFieldsToUpdate.includes(key as keyof UpdateUserParams)
+              );
+        
+              if (someFieldIsNotAllowedToUpdate) {
+                return badRequest("Some received field is not allowed");
+              }
+
             const user = await this._updateUserRepository.updateUser(id, body)
 
             return ok<User>(user)
-
         } catch (error) {
-            return badRequest('error')
+            return serverError()
         }
     }
 

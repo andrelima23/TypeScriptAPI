@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 import { MongoClient } from '../../database/mongodb';
-import { MongoUser } from '../../models/type-user';
+import { MongoUser } from '../../types/type-user';
 import { User } from '../../models/user';
 import { IDeleteUserRepository } from './idelete-user';
 
@@ -15,15 +15,13 @@ export class MongoDeleteUserRepository implements IDeleteUserRepository {
         const { deletedCount } = await MongoClient.db.collection("users").deleteOne({ _id: new ObjectId(id) });
 
         if (!deletedCount) {
-            throw new Error("User not deleted");
+            throw new Error("Não foi possivel atualizar o usuário");
           }
 
         if(!user) {
-            throw new Error("Usuário não foi deletado")
+            throw new Error("Não foi possivel deletar o usuário")
         }
-
-        const { _id, ...rest } = user;
         
-        return user;
+        return user
     }
 }

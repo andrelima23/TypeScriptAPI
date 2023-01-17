@@ -1,6 +1,6 @@
-import { badRequest, ok } from '../helpers/helpers';
+import { badRequest, ok, serverError } from '../helpers/helpers';
 import { User } from '../models/user';
-import { HttpRequest, HttpResponse } from '../protocols/control-protocols/http-protocols';
+import { HttpRequest, HttpResponse } from '../protocols/http-protocols';
 import { IDeleteUser, IDeleteUserRepository } from '../repositories/delete-user/idelete-user';
 
 export class DeleteUserController implements IDeleteUser {
@@ -26,7 +26,7 @@ export class DeleteUserController implements IDeleteUser {
             return ok<User>(user)
 
         } catch (error) {
-            throw new Error('Method not implemented.');
+            return serverError();
         }
     }
 }

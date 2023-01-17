@@ -1,7 +1,7 @@
 import { User } from '../../models/user';
 import { IGetUserByIdRepository } from './iget-users';
 import { MongoClient } from '../../database/mongodb';
-import { MongoUser } from '../../models/type-user';
+import { MongoUser } from '../../types/type-user';
 import { ObjectId } from 'mongodb';
 
 export class MongoGetUserByIdRepository implements IGetUserByIdRepository {
@@ -9,7 +9,7 @@ export class MongoGetUserByIdRepository implements IGetUserByIdRepository {
         const user = await MongoClient.db.collection<MongoUser>("users").findOne({_id: new ObjectId(id)})
         
         if(!user) {
-            throw new Error("Não existe esse usuário")
+            throw new Error("Usuári não encontrado")
         }
 
         return user

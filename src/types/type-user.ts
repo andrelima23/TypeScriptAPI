@@ -1,3 +1,3 @@
-import { User } from "./user"; 
+import { User } from "../models/user"; 
 
 export type MongoUser = Omit<User, "id">;

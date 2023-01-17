@@ -1,5 +1,5 @@
 import { User } from "../../models/user";
-import { HttpRequest, HttpResponse } from "../../protocols/control-protocols/http-protocols";
+import { HttpRequest, HttpResponse } from "../../protocols/http-protocols";
 
 export interface IDeleteUser {
     handle(httpRequest: HttpRequest<string>): Promise<HttpResponse<User | string>>

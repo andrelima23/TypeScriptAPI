@@ -2,7 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import bodyParser from "body-parser";
-import fs from 'fs';
+
 import { config as useDotEnv } from 'dotenv';
 import { GetUsersController } from './controllers/get-users-controller';
 import { MongoGetUsersRepository } from './repositories/get-users/mongo-get-users';
@@ -15,6 +15,7 @@ import { MongoUpdateUserRepository } from './repositories/update-user/mongo-upda
 import { UpdateUserController } from './controllers/update-user-controller';
 import { MongoDeleteUserRepository } from './repositories/delete-user/mongo-delete-user';
 import { DeleteUserController } from './controllers/delete-user-controller';
+import { SaveLog } from "./utils/save";
 
 (async () => {
     const app = express();
@@ -28,24 +29,20 @@ import { DeleteUserController } from './controllers/delete-user-controller';
     useDotEnv()
     
     await MongoClient.connect();
-    
-    const data = [{
-        n1: 456,
-        n2: 456
-    }];
-    
-    app.listen(PORT, () => console.log('> Servidor rodando... \n> Acesse localhost:9000/home/'));
-    
-    
+
+    app.listen(PORT, () => console.log(`> Servidor rodando... \n> Acesse localhost:${PORT}/home/`));
     
     app.get("/home", (req, res) => {
-        const rotas = {
+        const routes = {
             home: 'http://localhost:9000/home/',
             users:'http://localhost:9000/users/',
-            post: 'http://localhost:9000/post/'
+            post: 'http://localhost:9000/users/',
+            patch: 'http://localhost:9000/users/id',
+            delete: 'http://localhost:9000/users/id',
+            userById: 'http://localhost:9000/users/id',
         }
     
-        return res.send(rotas)
+        return res.send(routes)
     })
     
     app.get("/users", async (req, res) => {
@@ -76,6 +73,8 @@ import { DeleteUserController } from './controllers/delete-user-controller';
             body: req.body
         })
 
+        SaveLog(req.body)
+
         return res.status(statusCode).send(body)
     })
 
@@ -99,25 +98,6 @@ import { DeleteUserController } from './controllers/delete-user-controller';
         })
 
         res.status(statusCode).send(body)
-    })
-    
-    app.post("/post", (req, res) => {
-        const request = req.body;
-    
-        if (!request) {
-            return res.status(400).end();
-          }
-        
-        data.push(request)
-    
-        const gravar = JSON.stringify(data);
-    
-        fs.writeFile("log.txt", gravar, (error) => {
-           if(error) console.log(error)
-        })
-        console.log(request)
-    
-        return res.send("Objeto enviado!")
     })
 
 })()

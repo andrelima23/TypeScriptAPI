@@ -1,13 +1,13 @@
-import { HttpResponse, HttpStatusCode } from "../protocols/control-protocols/http-protocols";
+import { HttpResponse, HttpStatusCode } from "../protocols/http-protocols";
 
 export const ok = <T>(body: any): HttpResponse<T> => ({
   statusCode: HttpStatusCode.OK,
-  body,
+  body
 });
 
 export const created = <T>(body: any): HttpResponse<T> => ({
   statusCode: HttpStatusCode.CREATED,
-  body,
+  body
 });
 
 export const badRequest = (message: string): HttpResponse<string> => {
